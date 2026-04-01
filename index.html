@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Puzzle DFS</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            text-align: center;
+            padding: 40px;
+        }
+
+        .container {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 30px;
+            border-radius: 15px;
+            display: inline-block;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+        }
+
+        h2 {
+            margin-bottom: 20px;
+        }
+
+        input {
+            padding: 10px;
+            border-radius: 8px;
+            border: none;
+            margin: 10px;
+            width: 200px;
+            text-align: center;
+            font-size: 16px;
+        }
+
+        button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 10px;
+            background: #00c9a7;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+        button:hover {
+            background: #00a98f;
+        }
+
+        .resultado {
+            margin-top: 20px;
+            text-align: left;
+        }
+
+        .paso {
+            background: rgba(255,255,255,0.2);
+            padding: 10px;
+            margin: 5px 0;
+            border-radius: 8px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+    <h2>🧩 Resolver Puzzle DFS</h2>
+
+    <div>
+        <label>Estado inicial:</label><br>
+        <input id="inicio" value="4,2,3,1">
+    </div>
+
+    <div>
+        <label>Estado objetivo:</label><br>
+        <input id="objetivo" value="1,2,3,4">
+    </div>
+
+    <button onclick="resolver()">Resolver</button>
+
+    <div class="resultado">
+        <h3>Resultado:</h3>
+        <div id="resultado"></div>
+    </div>
+</div>
+
+<script>
+async function resolver() {
+    const inicio = document.getElementById("inicio").value.split(',').map(Number);
+    const objetivo = document.getElementById("objetivo").value.split(',').map(Number);
+
+    const res = await fetch("/resolver", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({inicio, objetivo})
+    });
+
+    const data = await res.json();
+    const contenedor = document.getElementById("resultado");
+
+    contenedor.innerHTML = "";
+
+    if (Array.isArray(data.resultado)) {
+        data.resultado.forEach((paso, index) => {
+            const div = document.createElement("div");
+            div.className = "paso";
+            div.textContent = `Paso ${index}: [ ${paso.join(" , ")} ]`;
+            contenedor.appendChild(div);
+        });
+    } else {
+        contenedor.textContent = data.resultado;
+    }
+}
+</script>
+
+</body>
+</html>
