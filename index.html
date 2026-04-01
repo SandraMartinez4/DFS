@@ -68,7 +68,7 @@
 <body>
 
 <div class="container">
-    <h2>🧩 Resolver Puzzle DFS</h2>
+    <h2>Puzzle DFS</h2>
 
     <div>
         <label>Estado inicial:</label><br>
@@ -110,7 +110,7 @@ async function resolver() {
         data.resultado.forEach((paso, index) => {
             const div = document.createElement("div");
             div.className = "paso";
-            div.textContent = `Paso ${index}: [ ${paso.join(" , ")} ]`;
+            div.textContent = `[ ${paso.join(" , ")} ]`;
             contenedor.appendChild(div);
         });
     } else {
