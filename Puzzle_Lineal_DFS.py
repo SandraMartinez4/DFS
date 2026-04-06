@@ -16,33 +16,33 @@ def buscar_solucion_DFS(estado_inicial, solucion):
 
         dato_nodo = nodo.get_datos()
 
-        # IZQUIERDA
+        # Operador Izquierdo
         hijo = [dato_nodo[1], dato_nodo[0], dato_nodo[2], dato_nodo[3]]
         hijo_izquierdo = Nodo(hijo)
         hijo_izquierdo.set_padre(nodo)
 
-        # DERECHA
-        hijo = [dato_nodo[0], dato_nodo[1], dato_nodo[3], dato_nodo[2]]
-        hijo_derecha = Nodo(hijo)
-        hijo_derecha.set_padre(nodo)
+        # Operador Derecho (corregido)
+        hijo = [dato_nodo[0], dato_nodo[2], dato_nodo[1], dato_nodo[3]]
+        hijo_derecho = Nodo(hijo)
+        hijo_derecho.set_padre(nodo)
 
-        # CENTRAL
-        hijo = [dato_nodo[2], dato_nodo[1], dato_nodo[0], dato_nodo[3]]
+        # Operador Central
+        hijo = [dato_nodo[0], dato_nodo[1], dato_nodo[3], dato_nodo[2]]
         hijo_central = Nodo(hijo)
         hijo_central.set_padre(nodo)
 
-        for hijo in [hijo_izquierdo, hijo_central, hijo_derecha]:
+        for hijo in [hijo_izquierdo, hijo_central, hijo_derecho]:
             if not hijo.en_lista(nodos_visitados) and not hijo.en_lista(nodos_frontera):
                 nodos_frontera.append(hijo)
 
-        nodo.set_hijos([hijo_izquierdo, hijo_central, hijo_derecha])
+        nodo.set_hijos([hijo_izquierdo, hijo_central, hijo_derecho])
 
     return None
 
 
 def obtener_camino(nodo):
-    camino = []
+    resultado = []
     while nodo is not None:
-        camino.append(nodo.get_datos())
+        resultado.append(nodo.get_datos())
         nodo = nodo.get_padre()
-    return list(reversed(camino))
+    return list(reversed(resultado))
